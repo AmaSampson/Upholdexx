@@ -4,6 +4,7 @@ import { UserData, CryptoPrice, Transaction } from '../App';
 import TradingChart from './TradingChart';
 import DepositModal from './DepositModal';
 import TradeModal from './TradeModal';
+import WithdrawModal from './WithdrawModal';
 
 interface DashboardProps {
   user: UserData;
@@ -17,6 +18,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, cryptoPrices, onDeposit, on
   const [showTradeModal, setShowTradeModal] = useState(false);
   const [selectedCrypto, setSelectedCrypto] = useState<CryptoPrice | null>(null);
   const [tradeType, setTradeType] = useState<'buy' | 'sell'>('buy');
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
   const totalPortfolioValue = user.balance + user.transactions
     .filter(t => t.type === 'buy' && t.status === 'completed')
@@ -26,6 +28,15 @@ const Dashboard: React.FC<DashboardProps> = ({ user, cryptoPrices, onDeposit, on
     setSelectedCrypto(crypto);
     setTradeType(type);
     setShowTradeModal(true);
+  };
+
+  const handleWithdraw = (amount: number, cryptoType: string, address: string) => {
+    if (amount > user.balance) {
+      alert('Insufficient balance');
+      return;
+    }
+    onDeposit(-amount); // Subtract from balance
+    // Optionally, add a withdrawal transaction here if needed
   };
 
   const getStatusIcon = (status: Transaction['status']) => {
@@ -71,12 +82,20 @@ const Dashboard: React.FC<DashboardProps> = ({ user, cryptoPrices, onDeposit, on
             <div className="text-3xl font-bold text-white mb-2">
               ${user.balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
             </div>
-            <button
-              onClick={() => setShowDepositModal(true)}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105"
-            >
-              Add Funds
-            </button>
+            <div className="flex space-x-2">
+              <button
+                onClick={() => setShowDepositModal(true)}
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105"
+              >
+                Add Funds
+              </button>
+              <button
+                onClick={() => setShowWithdrawModal(true)}
+                className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105"
+              >
+                Withdraw
+              </button>
+            </div>
           </div>
 
           <div className="bg-black/20 backdrop-blur-md rounded-2xl p-6 border border-white/10">
@@ -240,6 +259,14 @@ const Dashboard: React.FC<DashboardProps> = ({ user, cryptoPrices, onDeposit, on
           userBalance={user.balance}
           onTrade={onTrade}
           onClose={() => setShowTradeModal(false)}
+        />
+      )}
+
+      {showWithdrawModal && (
+        <WithdrawModal
+          userBalance={user.balance}
+          onWithdraw={handleWithdraw}
+          onClose={() => setShowWithdrawModal(false)}
         />
       )}
     </div>

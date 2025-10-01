@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, DollarSign, CreditCard, Banknote } from 'lucide-react';
+import { X, DollarSign, Wallet } from 'lucide-react';
 
 interface DepositModalProps {
   onDeposit: (amount: number) => void;
@@ -8,7 +8,8 @@ interface DepositModalProps {
 
 const DepositModal: React.FC<DepositModalProps> = ({ onDeposit, onClose }) => {
   const [amount, setAmount] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<'card' | 'bank'>('card');
+  const [cryptoAddress, setCryptoAddress] = useState('');
+  const [cryptoType, setCryptoType] = useState('BTC');
   const [isLoading, setIsLoading] = useState(false);
 
   const quickAmounts = [100, 500, 1000, 5000];
@@ -19,6 +20,10 @@ const DepositModal: React.FC<DepositModalProps> = ({ onDeposit, onClose }) => {
     const depositAmount = parseFloat(amount);
     if (isNaN(depositAmount) || depositAmount <= 0) {
       alert('Please enter a valid amount');
+      return;
+    }
+    if (!cryptoAddress) {
+      alert('Please enter your crypto wallet address');
       return;
     }
 
@@ -85,36 +90,36 @@ const DepositModal: React.FC<DepositModalProps> = ({ onDeposit, onClose }) => {
             </div>
           </div>
 
-          {/* Payment Method */}
+          {/* Crypto Type */}
           <div>
             <label className="block text-white/80 text-sm font-medium mb-3">
-              Payment Method
+              Cryptocurrency
             </label>
-            <div className="space-y-2">
-              <button
-                type="button"
-                onClick={() => setPaymentMethod('card')}
-                className={`w-full flex items-center space-x-3 p-4 rounded-lg border transition-all duration-200 ${
-                  paymentMethod === 'card'
-                    ? 'bg-purple-500/20 border-purple-400 text-white'
-                    : 'bg-white/10 border-white/20 text-white/80 hover:bg-white/20'
-                }`}
-              >
-                <CreditCard className="w-5 h-5" />
-                <span>Credit/Debit Card</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setPaymentMethod('bank')}
-                className={`w-full flex items-center space-x-3 p-4 rounded-lg border transition-all duration-200 ${
-                  paymentMethod === 'bank'
-                    ? 'bg-purple-500/20 border-purple-400 text-white'
-                    : 'bg-white/10 border-white/20 text-white/80 hover:bg-white/20'
-                }`}
-              >
-                <Banknote className="w-5 h-5" />
-                <span>Bank Transfer</span>
-              </button>
+            <select
+              value={cryptoType}
+              onChange={e => setCryptoType(e.target.value)}
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-400 transition-colors duration-200"
+            >
+              <option value="BTC">Bitcoin (BTC)</option>
+              <option value="ETH">Ethereum (ETH)</option>
+              <option value="USDT">Tether (USDT)</option>
+            </select>
+          </div>
+          {/* Crypto Address */}
+          <div>
+            <label className="block text-white/80 text-sm font-medium mb-3">
+              Your {cryptoType} Wallet Address
+            </label>
+            <div className="relative">
+              <Wallet className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/40" />
+              <input
+                type="text"
+                value={cryptoAddress}
+                onChange={e => setCryptoAddress(e.target.value)}
+                className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-purple-400 transition-colors duration-200"
+                placeholder={`Enter your ${cryptoType} address`}
+                required
+              />
             </div>
           </div>
 

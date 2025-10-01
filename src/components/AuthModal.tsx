@@ -12,6 +12,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ mode, onAuth, onClose, onSwitchMo
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [phone, setPhone] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -21,12 +22,20 @@ const AuthModal: React.FC<AuthModalProps> = ({ mode, onAuth, onClose, onSwitchMo
       alert('Passwords do not match');
       return;
     }
+    if (mode === 'signup' && phone.trim().length < 7) {
+      alert('Please enter a valid phone number');
+      return;
+    }
 
     setIsLoading(true);
     
     // Simulate API call
     setTimeout(() => {
-      onAuth(email, password, mode);
+      if (mode === 'signup') {
+        onAuth(email, password, mode, phone);
+      } else {
+        onAuth(email, password, mode);
+      }
       setIsLoading(false);
     }, 1000);
   };
@@ -94,6 +103,23 @@ const AuthModal: React.FC<AuthModalProps> = ({ mode, onAuth, onClose, onSwitchMo
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-gold-accent transition-colors duration-200"
                   placeholder="Confirm your password"
+                  required
+                />
+              </div>
+            </div>
+          )}
+          {mode === 'signup' && (
+            <div>
+              <label className="block text-white/80 text-sm font-medium mb-2">
+                Phone Number
+              </label>
+              <div className="relative">
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full bg-white/10 border border-white/20 rounded-lg pl-4 pr-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-gold-accent transition-colors duration-200"
+                  placeholder="Enter your phone number"
                   required
                 />
               </div>

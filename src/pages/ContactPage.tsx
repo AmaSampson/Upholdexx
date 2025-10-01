@@ -35,7 +35,7 @@ const ContactPage: React.FC = () => {
       icon: Mail,
       title: 'Email Support',
       description: 'Get help via email',
-      contact: 'support@upholdexx.com',
+      contact: 'uphold.dexx@mail.com',
       availability: 'Response within 24 hours'
     },
     {
@@ -49,7 +49,7 @@ const ContactPage: React.FC = () => {
       icon: Phone,
       title: 'Phone Support',
       description: 'Speak directly with our team',
-      contact: '+1 (555) 123-4567',
+      contact: '406 808 0117, (561) 949-1071',
       availability: 'Mon-Fri, 9AM-6PM EST'
     },
     {
@@ -63,22 +63,22 @@ const ContactPage: React.FC = () => {
 
   const offices = [
     {
-      city: 'San Francisco',
-      address: '123 Crypto Street, San Francisco, CA 94105',
-      phone: '+1 (555) 123-4567',
-      email: 'sf@upholdexx.com'
-    },
-    {
       city: 'New York',
       address: '456 Blockchain Ave, New York, NY 10001',
-      phone: '+1 (555) 987-6543',
-      email: 'ny@upholdexx.com'
+      phone: '406 808 0117',
+      email: 'uphold.dexx@mail.com'
     },
     {
-      city: 'London',
-      address: '789 Digital Lane, London, UK EC1A 1BB',
-      phone: '+44 20 7123 4567',
-      email: 'london@upholdexx.com'
+      city: 'Dubai',
+      address: 'Downtown Dubai, Dubai, UAE',
+      phone: '(561) 949-1071',
+      email: 'uphold.dexx@mail.com'
+    },
+    {
+      city: 'Florida',
+      address: 'Miami, Florida, USA',
+      phone: '406 808 0117',
+      email: 'uphold.dexx@mail.com'
     }
   ];
 
@@ -143,7 +143,7 @@ const ContactPage: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-dark-bg-text placeholder-white/40 focus:outline-none focus:border-gold-accent transition-colors duration-200"
-                    placeholder="your@email.com"
+                    placeholder="uphold.dexx@mail.com"
                     required
                   />
                 </div>

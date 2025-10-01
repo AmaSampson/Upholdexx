@@ -65,15 +65,19 @@ const Footer: React.FC = () => {
             <ul className="space-y-3">
               <li className="flex items-center space-x-2 text-white-text/70">
                 <Mail className="w-4 h-4" />
-                <span>support@upholdexx.com</span>
+                <span>uphold.dexx@mail.com</span>
               </li>
               <li className="flex items-center space-x-2 text-white-text/70">
                 <Phone className="w-4 h-4" />
-                <span>+1 (555) 123-4567</span>
+                <span>406 808 0117</span>
+              </li>
+              <li className="flex items-center space-x-2 text-white-text/70">
+                <Phone className="w-4 h-4" />
+                <span>(561) 949-1071</span>
               </li>
               <li className="flex items-start space-x-2 text-white-text/70">
                 <MapPin className="w-4 h-4 mt-1" />
-                <span>123 Crypto Street<br />San Francisco, CA 94105</span>
+                <span>456 Blockchain Ave<br />New York, NY 10001</span>
               </li>
             </ul>
           </div>
